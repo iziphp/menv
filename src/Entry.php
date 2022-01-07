@@ -41,7 +41,7 @@ class Entry
                 $this->comment = trim($parts[1]);
             }
         } else {
-            throw new InvalidEntryException;
+            throw new InvalidEntryException($line);
         }
     }
 
@@ -104,7 +104,7 @@ class Entry
         } elseif (is_numeric($value)) {
             $this->value = (string) $value;
         } else {
-            throw new InvalidEntryValueException;
+            throw new InvalidEntryValueException($value);
         }
 
         $this->isUpdated = true;

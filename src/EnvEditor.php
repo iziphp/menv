@@ -90,7 +90,7 @@ class EnvEditor
             }
         }
 
-        throw new EntryNotFoundWithKeyException;
+        throw new EntryNotFoundWithKeyException($key);
     }
 
     private function getEntryByIndex(int $index): Entry
@@ -99,6 +99,6 @@ class EnvEditor
             return $this->entries[$index];
         }
 
-        throw new EntryNotFoundAtIndexException;
+        throw new EntryNotFoundAtIndexException($index);
     }
 }
