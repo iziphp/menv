@@ -4,8 +4,15 @@ namespace Uvodo\Menv\Exceptions;
 
 use Throwable;
 
+/** @package Uvodo\Menv\Exceptions */
 class FileNotFoundException extends Exception
 {
+    /**
+     * @param string $path 
+     * @param int $code 
+     * @param Throwable|null $previous 
+     * @return void 
+     */
     public function __construct(
         string $path,
         int $code = 0,

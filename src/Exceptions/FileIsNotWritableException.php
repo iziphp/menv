@@ -4,6 +4,7 @@ namespace Uvodo\Menv\Exceptions;
 
 use Throwable;
 
+/** @package Uvodo\Menv\Exceptions */
 class FileIsNotWritableException extends Exception
 {
     public function __construct(

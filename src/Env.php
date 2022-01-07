@@ -6,13 +6,21 @@ use Uvodo\Menv\Exceptions\EntryNotFoundAtIndexException;
 use Uvodo\Menv\Exceptions\EntryNotFoundWithKeyException;
 use Uvodo\Menv\Exceptions\FileIsNotWritableException;
 use Uvodo\Menv\Exceptions\FileNotFoundException;
+use Uvodo\Menv\Exceptions\InvalidEntryValueException;
 
+/** @package Uvodo\Menv */
 class Env
 {
     /** @var Entry[] $entries */
     private array $entries = [];
     private string $path;
 
+    /**
+     * @param string $path 
+     * @return void 
+     * @throws FileNotFoundException 
+     * @throws FileIsNotWritableException 
+     */
     public function __construct(string $path)
     {
         $this->checkFile($path);
@@ -20,9 +28,18 @@ class Env
         $this->parse();
     }
 
-    public function set(string $name, $value, ?string $comment = null): self
+    /**
+     * Set the value (and optionally comment) for the entry found by key.
+     * @param string $key 
+     * @param mixed $value 
+     * @param null|string $comment 
+     * @return Env 
+     * @throws EntryNotFoundWithKeyException 
+     * @throws InvalidEntryValueException 
+     */
+    public function set(string $key, $value, ?string $comment = null): self
     {
-        $entry = $this->getEntryByKey($name);
+        $entry = $this->getEntryByKey($key);
         $entry->setValue($value);
 
         if (!is_null($comment)) {
@@ -32,6 +49,16 @@ class Env
         return $this;
     }
 
+    /**
+     * Set the value (and optionally comment) for the entry found by index.
+     * Indices are the line number (start from 0).
+     * @param int $index 
+     * @param mixed $value 
+     * @param null|string $comment 
+     * @return Env 
+     * @throws EntryNotFoundAtIndexException 
+     * @throws InvalidEntryValueException 
+     */
     public function setByIndex(int $index, $value, ?string $comment = null): self
     {
         $entry = $this->getEntryByIndex($index);
@@ -44,6 +71,13 @@ class Env
         return $this;
     }
 
+    /**
+     * Set the comment for the entry found by key.
+     * @param string $name 
+     * @param string $comment 
+     * @return Env 
+     * @throws EntryNotFoundWithKeyException 
+     */
     public function setComment(string $name, string $comment): self
     {
         $entry = $this->getEntryByKey($name);
@@ -52,6 +86,14 @@ class Env
         return $this;
     }
 
+    /**
+     * Set the comment for the entry found by index. 
+     * Indices are the line number (start from 0).
+     * @param int $index 
+     * @param string $comment 
+     * @return Env 
+     * @throws EntryNotFoundAtIndexException 
+     */
     public function setCommentByIndex(int $index, string $comment): self
     {
         $entry = $this->getEntryByIndex($index);
@@ -60,6 +102,10 @@ class Env
         return $this;
     }
 
+    /**
+     * Save entries back to the file.
+     * @return void 
+     */
     public function save()
     {
         $output = [];
@@ -70,6 +116,13 @@ class Env
         file_put_contents($this->path, implode("\n", $output));
     }
 
+    /**
+     * Validates the file path on construct.
+     * @param string $path 
+     * @return void 
+     * @throws FileNotFoundException 
+     * @throws FileIsNotWritableException 
+     */
     private function checkFile(string $path)
     {
         if (!file_exists($path)) {
@@ -81,6 +134,10 @@ class Env
         }
     }
 
+    /**
+     * Read the file line by line and parse each entry line.
+     * @return void 
+     */
     private function parse()
     {
         $handle = fopen($this->path, 'r');
@@ -92,6 +149,12 @@ class Env
         fclose($handle);
     }
 
+    /**
+     * Find entry by key.
+     * @param string $key 
+     * @return Entry 
+     * @throws EntryNotFoundWithKeyException 
+     */
     private function getEntryByKey(string $key): Entry
     {
         foreach ($this->entries as $entry) {
@@ -103,6 +166,12 @@ class Env
         throw new EntryNotFoundWithKeyException($key);
     }
 
+    /**
+     * Find entry by index. Indices are the line number (start from 0).
+     * @param int $index 
+     * @return Entry 
+     * @throws EntryNotFoundAtIndexException 
+     */
     private function getEntryByIndex(int $index): Entry
     {
         if (isset($this->entries[$index])) {

@@ -4,10 +4,18 @@ namespace Uvodo\Menv\Exceptions;
 
 use Throwable;
 
+/** @package Uvodo\Menv\Exceptions */
 class InvalidEntryValueException extends Exception
 {
+    /** @var mixed $value */
     private $value;
 
+    /**
+     * @param mixed $value 
+     * @param int $code 
+     * @param Throwable|null $previous 
+     * @return void 
+     */
     public function __construct(
         $value,
         int $code = 0,
@@ -24,6 +32,7 @@ class InvalidEntryValueException extends Exception
         parent::__construct($msg, $code, $previous);
     }
 
+    /** @return mixed  */
     public function getValue()
     {
         return $this->value;

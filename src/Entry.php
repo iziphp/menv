@@ -5,6 +5,7 @@ namespace Uvodo\Menv;
 use Uvodo\Menv\Exceptions\InvalidEntryException;
 use Uvodo\Menv\Exceptions\InvalidEntryValueException;
 
+/** @package Uvodo\Menv */
 class Entry
 {
     private string $line;
@@ -13,6 +14,11 @@ class Entry
     private ?string $comment = null;
     private bool $isUpdated = false;
 
+    /**
+     * @param string $line 
+     * @return void 
+     * @throws InvalidEntryException 
+     */
     public function __construct(string $line)
     {
         $this->line = trim($line);
@@ -22,29 +28,12 @@ class Entry
         }
     }
 
-    private function parse(string $line)
-    {
-        $pattern = '/^([a-zA-Z_]+[a-zA-Z0-9_]*)(\s*)=(.*)$/';
-
-        if (substr($line, 0, 1) == '#') {
-            $this->comment = substr($line, 1);
-        } else if (preg_match($pattern, $line, $matches)) {
-            $this->key = $matches[1];
-            $right = $matches[3];
-
-            $pattern = '/(\'[^\']*\'|"[^"\\\\"]*")(*SKIP)(*F)|#+/';
-            $parts = preg_split($pattern, trim($right), 2);
-
-            $this->value = trim($parts[0]) === '' ? null : trim($parts[0]);
-
-            if (isset($parts[1])) {
-                $this->comment = trim($parts[1]);
-            }
-        } else {
-            throw new InvalidEntryException($line);
-        }
-    }
-
+    /** 
+     * Get entry line. 
+     * If not modified, then will return the original, unparsed line.
+     * 
+     * @return string  
+     */
     public function getLine(): string
     {
         if (!$this->isUpdated) {
@@ -63,21 +52,26 @@ class Entry
         return $out;
     }
 
+    /** 
+     * Get original unparsed line.
+     * @return string  
+     */
     public function getOriginalLine(): string
     {
         return $this->line;
     }
 
-    public function __toString()
-    {
-        return $this->getLine();
-    }
-
+    /** @return null|string  */
     public function getKey(): ?string
     {
         return $this->key;
     }
 
+    /**
+     * @param mixed $value 
+     * @return void 
+     * @throws InvalidEntryValueException 
+     */
     public function setValue($value)
     {
         if (is_string($value)) {
@@ -110,9 +104,51 @@ class Entry
         $this->isUpdated = true;
     }
 
+    /**
+     * @param string $comment 
+     * @return void 
+     */
     public function setComment(string $comment)
     {
         $this->comment = $comment;
         $this->isUpdated = true;
+    }
+
+    /**
+     * String representation of the instance
+     * @return string 
+     */
+    public function __toString()
+    {
+        return $this->getLine();
+    }
+
+    /**
+     * Parse entry line to the key, value and comments
+     * @param string $line 
+     * @return void 
+     * @throws InvalidEntryException 
+     */
+    private function parse(string $line)
+    {
+        $pattern = '/^([a-zA-Z_]+[a-zA-Z0-9_]*)(\s*)=(.*)$/';
+
+        if (substr($line, 0, 1) == '#') {
+            $this->comment = substr($line, 1);
+        } else if (preg_match($pattern, $line, $matches)) {
+            $this->key = $matches[1];
+            $right = $matches[3];
+
+            $pattern = '/(\'[^\']*\'|"[^"\\\\"]*")(*SKIP)(*F)|#+/';
+            $parts = preg_split($pattern, trim($right), 2);
+
+            $this->value = trim($parts[0]) === '' ? null : trim($parts[0]);
+
+            if (isset($parts[1])) {
+                $this->comment = trim($parts[1]);
+            }
+        } else {
+            throw new InvalidEntryException($line);
+        }
     }
 }
