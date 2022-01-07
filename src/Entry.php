@@ -57,7 +57,7 @@ class Entry
         }
 
         if ($this->comment) {
-            $out .= ' # ' . $this->comment;
+            $out .= ($out ? ' ' : '') . '# ' . $this->comment;
         }
 
         return $out;
