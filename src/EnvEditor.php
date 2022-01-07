@@ -2,6 +2,8 @@
 
 namespace Uvodo\Menv;
 
+use Uvodo\Menv\Exceptions\EntryNotFoundAtIndexException;
+
 class EnvEditor
 {
     /** @var Entry[] $entries */
@@ -29,6 +31,23 @@ class EnvEditor
         return $this;
     }
 
+    public function setByIndex(int $index, $value, ?string $comment = null): self
+    {
+        $entry = $this->entries[$index] ?? null;
+
+        if (!$entry) {
+            throw new EntryNotFoundAtIndexException;
+        }
+
+        $entry->setValue($value);
+
+        if (!is_null($comment)) {
+            $entry->setComment($comment);
+        }
+
+        return $this;
+    }
+
     public function setComment(string $name, string $comment): self
     {
         foreach ($this->entries as $entry) {
@@ -36,6 +55,19 @@ class EnvEditor
                 $entry->setComment($comment);
             }
         }
+
+        return $this;
+    }
+
+    public function setCommentByIndex(int $index, string $comment): self
+    {
+        $entry = $this->entries[$index] ?? null;
+
+        if (!$entry) {
+            throw new EntryNotFoundAtIndexException;
+        }
+
+        $entry->setComment($comment);
 
         return $this;
     }
