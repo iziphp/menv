@@ -3,6 +3,7 @@
 namespace Uvodo\Menv;
 
 use Uvodo\Menv\Exceptions\EntryNotFoundAtIndexException;
+use Uvodo\Menv\Exceptions\EntryNotFoundWithKeyException;
 
 class EnvEditor
 {
@@ -18,14 +19,11 @@ class EnvEditor
 
     public function set(string $name, $value, ?string $comment = null): self
     {
-        foreach ($this->entries as $entry) {
-            if ($entry->getKey() == $name) {
-                $entry->setValue($value);
+        $entry = $this->getEntryByKey($name);
+        $entry->setValue($value);
 
-                if (!is_null($comment)) {
-                    $entry->setComment($comment);
-                }
-            }
+        if (!is_null($comment)) {
+            $entry->setComment($comment);
         }
 
         return $this;
@@ -33,12 +31,7 @@ class EnvEditor
 
     public function setByIndex(int $index, $value, ?string $comment = null): self
     {
-        $entry = $this->entries[$index] ?? null;
-
-        if (!$entry) {
-            throw new EntryNotFoundAtIndexException;
-        }
-
+        $entry = $this->getEntryByIndex($index);
         $entry->setValue($value);
 
         if (!is_null($comment)) {
@@ -50,23 +43,15 @@ class EnvEditor
 
     public function setComment(string $name, string $comment): self
     {
-        foreach ($this->entries as $entry) {
-            if ($entry->getKey() == $name) {
-                $entry->setComment($comment);
-            }
-        }
+        $entry = $this->getEntryByKey($name);
+        $entry->setComment($comment);
 
         return $this;
     }
 
     public function setCommentByIndex(int $index, string $comment): self
     {
-        $entry = $this->entries[$index] ?? null;
-
-        if (!$entry) {
-            throw new EntryNotFoundAtIndexException;
-        }
-
+        $entry = $this->getEntryByIndex($index);
         $entry->setComment($comment);
 
         return $this;
@@ -95,5 +80,25 @@ class EnvEditor
         }
 
         fclose($handle);
+    }
+
+    private function getEntryByKey(string $key): Entry
+    {
+        foreach ($this->entries as $entry) {
+            if ($entry->getKey() == $key) {
+                return $entry;
+            }
+        }
+
+        throw new EntryNotFoundWithKeyException;
+    }
+
+    private function getEntryByIndex(int $index): Entry
+    {
+        if (isset($this->entries[$index])) {
+            return $this->entries[$index];
+        }
+
+        throw new EntryNotFoundAtIndexException;
     }
 }
