@@ -29,6 +29,17 @@ class EnvEditor
         return $this;
     }
 
+    public function setComment(string $name, string $comment): self
+    {
+        foreach ($this->entries as $entry) {
+            if ($entry->getKey() == $name) {
+                $entry->setComment($comment);
+            }
+        }
+
+        return $this;
+    }
+
     public function save()
     {
         $output = [];
