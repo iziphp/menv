@@ -5,7 +5,7 @@ namespace Uvodo\Menv;
 use Uvodo\Menv\Exceptions\EntryNotFoundAtIndexException;
 use Uvodo\Menv\Exceptions\EntryNotFoundWithKeyException;
 
-class EnvEditor
+class Env
 {
     /** @var Entry[] $entries */
     private array $entries = [];
