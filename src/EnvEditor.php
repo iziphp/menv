@@ -16,7 +16,6 @@ class EnvEditor
 
     public function set(string $name, $value, ?string $comment = null): self
     {
-        $entries = [];
         foreach ($this->entries as $entry) {
             if ($entry->getKey() == $name) {
                 $entry->setValue($value);
@@ -25,11 +24,8 @@ class EnvEditor
                     $entry->setComment($comment);
                 }
             }
-
-            $entries[] = $entry;
         }
 
-        $this->entries = $entries;
         return $this;
     }
 
