@@ -35,7 +35,7 @@ class Entry
             $pattern = '/(\'[^\']*\'|"[^"\\\\"]*")(*SKIP)(*F)|#+/';
             $parts = preg_split($pattern, trim($right), 2);
 
-            $this->value = trim($parts[0]) ?: null;
+            $this->value = trim($parts[0]) === '' ? null : trim($parts[0]);
 
             if (isset($parts[1])) {
                 $this->comment = trim($parts[1]);
