@@ -1,5 +1,5 @@
 {
-    "name": "uvodo/menv",
+    "name": "uvodohq/menv",
     "description": "PHP library to modify values in env file",
     "type": "library",
     "license": "MIT",
