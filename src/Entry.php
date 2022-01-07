@@ -77,9 +77,9 @@ class Entry
         if (is_string($value)) {
             $value = trim($value);
 
-            if ($value === 'true') {
+            if (strtolower($value) === 'true') {
                 $value = '1';
-            } elseif ($value === 'false') {
+            } elseif (strtolower($value) === 'false') {
                 $value = '0';
             } elseif (is_numeric($value)) {
                 $this->value = (string) $value;
