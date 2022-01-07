@@ -4,6 +4,8 @@ namespace Uvodo\Menv;
 
 use Uvodo\Menv\Exceptions\EntryNotFoundAtIndexException;
 use Uvodo\Menv\Exceptions\EntryNotFoundWithKeyException;
+use Uvodo\Menv\Exceptions\FileIsNotWritableException;
+use Uvodo\Menv\Exceptions\FileNotFoundException;
 
 class Env
 {
@@ -13,6 +15,7 @@ class Env
 
     public function __construct(string $path)
     {
+        $this->checkFile($path);
         $this->path = $path;
         $this->parse();
     }
@@ -65,6 +68,17 @@ class Env
         }
 
         file_put_contents($this->path, implode("\n", $output));
+    }
+
+    private function checkFile(string $path)
+    {
+        if (!file_exists($path)) {
+            throw new FileNotFoundException($path);
+        }
+
+        if (!is_writable($path)) {
+            throw new FileIsNotWritableException($path);
+        }
     }
 
     private function parse()
