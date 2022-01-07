@@ -65,10 +65,6 @@ class Env
         }
 
         file_put_contents($this->path, implode("\n", $output));
-
-        echo "<pre>";
-        echo implode("\n", $output);
-        echo "</pre>";
     }
 
     private function parse()
