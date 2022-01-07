@@ -113,5 +113,6 @@ class Entry
     public function setComment(string $comment)
     {
         $this->comment = $comment;
+        $this->isUpdated = true;
     }
 }
