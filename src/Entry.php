@@ -97,6 +97,8 @@ class Entry
             $this->value = $value === true ? '1' : '0';
         } elseif (is_numeric($value)) {
             $this->value = (string) $value;
+        } elseif (is_null($value)) {
+            $this->value = null;
         } else {
             throw new InvalidEntryValueException($value);
         }
