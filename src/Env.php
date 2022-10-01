@@ -28,6 +28,32 @@ class Env
         $this->parse();
     }
 
+    /** @return Entry[]  */
+    public function getEntries(): array
+    {
+        return $this->entries;
+    }
+
+    /**
+     * @param Entry $entry 
+     * @return void 
+     */
+    public function addEntry(Entry $entry): void
+    {
+        if (!$entry->getOriginalLine()) {
+            return;
+        }
+
+        foreach ($this->entries as $index => $e) {
+            if ($e->getKey() === $entry->getKey()) {
+                $this->entries[$index] = $entry;
+                return;
+            }
+        }
+
+        $this->entries[] = $entry;
+    }
+
     /**
      * Set the value (and optionally comment) for the entry found by key.
      * @param string $key 
@@ -39,11 +65,25 @@ class Env
      */
     public function set(string $key, $value, ?string $comment = null): self
     {
-        $entry = $this->getEntryByKey($key);
+        $entry = new Entry($key . "=");
+        $found = false;
+
+        foreach ($this->entries as $e) {
+            if ($e->getKey() === $key) {
+                $entry = $e;
+                $found = true;
+                break;
+            }
+        }
+
         $entry->setValue($value);
 
         if (!is_null($comment)) {
             $entry->setComment($comment);
+        }
+
+        if (!$found) {
+            $this->entries[] = $entry;
         }
 
         return $this;
