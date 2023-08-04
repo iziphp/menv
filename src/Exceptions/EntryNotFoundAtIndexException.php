@@ -1,24 +1,26 @@
 <?php
 
-namespace Uvodo\Menv\Exceptions;
+declare(strict_types=1);
+
+namespace Easy\Menv\Exceptions;
 
 use Throwable;
 
-/** @package Uvodo\Menv\Exceptions */
+/** @package Easy\Menv\Exceptions */
 class EntryNotFoundAtIndexException extends Exception
 {
     /**
-     * @param int $index 
-     * @param int $code 
-     * @param Throwable|null $previous 
-     * @return void 
+     * @param int $index
+     * @param int $code
+     * @param Throwable|null $previous
+     * @return void
      */
     public function __construct(
         int $index,
         int $code = 0,
         Throwable $previous = null
     ) {
-        $msg = sprintf('Entry is not found at index "%".', $index);
+        $msg = sprintf('Entry is not found at index "%s".', $index);
         parent::__construct($msg, $code, $previous);
     }
 }

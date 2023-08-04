@@ -1,8 +1,10 @@
 <?php
 
-namespace Uvodo\Menv\Exceptions;
+declare(strict_types=1);
 
-/** @package Uvodo\Menv\Exceptions */
+namespace Easy\Menv\Exceptions;
+
+/** @package Easy\Menv\Exceptions */
 class Exception extends \Exception
 {
 }

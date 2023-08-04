@@ -1,14 +1,16 @@
 <?php
 
-namespace Uvodo\Menv;
+declare(strict_types=1);
 
-use Uvodo\Menv\Exceptions\EntryNotFoundAtIndexException;
-use Uvodo\Menv\Exceptions\EntryNotFoundWithKeyException;
-use Uvodo\Menv\Exceptions\FileIsNotWritableException;
-use Uvodo\Menv\Exceptions\FileNotFoundException;
-use Uvodo\Menv\Exceptions\InvalidEntryValueException;
+namespace Easy\Menv;
 
-/** @package Uvodo\Menv */
+use Easy\Menv\Exceptions\EntryNotFoundAtIndexException;
+use Easy\Menv\Exceptions\EntryNotFoundWithKeyException;
+use Easy\Menv\Exceptions\FileIsNotWritableException;
+use Easy\Menv\Exceptions\FileNotFoundException;
+use Easy\Menv\Exceptions\InvalidEntryValueException;
+
+/** @package Easy\Menv */
 class Env
 {
     /** @var Entry[] $entries */
@@ -16,10 +18,10 @@ class Env
     private string $path;
 
     /**
-     * @param string $path 
-     * @return void 
-     * @throws FileNotFoundException 
-     * @throws FileIsNotWritableException 
+     * @param string $path
+     * @return void
+     * @throws FileNotFoundException
+     * @throws FileIsNotWritableException
      */
     public function __construct(string $path)
     {
@@ -35,8 +37,8 @@ class Env
     }
 
     /**
-     * @param Entry $entry 
-     * @return void 
+     * @param Entry $entry
+     * @return void
      */
     public function addEntry(Entry $entry): void
     {
@@ -56,12 +58,12 @@ class Env
 
     /**
      * Set the value (and optionally comment) for the entry found by key.
-     * @param string $key 
-     * @param mixed $value 
-     * @param null|string $comment 
-     * @return Env 
-     * @throws EntryNotFoundWithKeyException 
-     * @throws InvalidEntryValueException 
+     * @param string $key
+     * @param mixed $value
+     * @param null|string $comment
+     * @return Env
+     * @throws EntryNotFoundWithKeyException
+     * @throws InvalidEntryValueException
      */
     public function set(string $key, $value, ?string $comment = null): self
     {
@@ -92,12 +94,12 @@ class Env
     /**
      * Set the value (and optionally comment) for the entry found by index.
      * Indices are the line number (start from 0).
-     * @param int $index 
-     * @param mixed $value 
-     * @param null|string $comment 
-     * @return Env 
-     * @throws EntryNotFoundAtIndexException 
-     * @throws InvalidEntryValueException 
+     * @param int $index
+     * @param mixed $value
+     * @param null|string $comment
+     * @return Env
+     * @throws EntryNotFoundAtIndexException
+     * @throws InvalidEntryValueException
      */
     public function setByIndex(int $index, $value, ?string $comment = null): self
     {
@@ -113,10 +115,10 @@ class Env
 
     /**
      * Set the comment for the entry found by key.
-     * @param string $name 
-     * @param string $comment 
-     * @return Env 
-     * @throws EntryNotFoundWithKeyException 
+     * @param string $name
+     * @param string $comment
+     * @return Env
+     * @throws EntryNotFoundWithKeyException
      */
     public function setComment(string $name, string $comment): self
     {
@@ -127,12 +129,12 @@ class Env
     }
 
     /**
-     * Set the comment for the entry found by index. 
+     * Set the comment for the entry found by index.
      * Indices are the line number (start from 0).
-     * @param int $index 
-     * @param string $comment 
-     * @return Env 
-     * @throws EntryNotFoundAtIndexException 
+     * @param int $index
+     * @param string $comment
+     * @return Env
+     * @throws EntryNotFoundAtIndexException
      */
     public function setCommentByIndex(int $index, string $comment): self
     {
@@ -144,7 +146,7 @@ class Env
 
     /**
      * Save entries back to the file.
-     * @return void 
+     * @return void
      */
     public function save()
     {
@@ -158,10 +160,10 @@ class Env
 
     /**
      * Validates the file path on construct.
-     * @param string $path 
-     * @return void 
-     * @throws FileNotFoundException 
-     * @throws FileIsNotWritableException 
+     * @param string $path
+     * @return void
+     * @throws FileNotFoundException
+     * @throws FileIsNotWritableException
      */
     private function checkFile(string $path)
     {
@@ -176,7 +178,7 @@ class Env
 
     /**
      * Read the file line by line and parse each entry line.
-     * @return void 
+     * @return void
      */
     private function parse()
     {
@@ -191,9 +193,9 @@ class Env
 
     /**
      * Find entry by key.
-     * @param string $key 
-     * @return Entry 
-     * @throws EntryNotFoundWithKeyException 
+     * @param string $key
+     * @return Entry
+     * @throws EntryNotFoundWithKeyException
      */
     private function getEntryByKey(string $key): Entry
     {
@@ -208,9 +210,9 @@ class Env
 
     /**
      * Find entry by index. Indices are the line number (start from 0).
-     * @param int $index 
-     * @return Entry 
-     * @throws EntryNotFoundAtIndexException 
+     * @param int $index
+     * @return Entry
+     * @throws EntryNotFoundAtIndexException
      */
     private function getEntryByIndex(int $index): Entry
     {

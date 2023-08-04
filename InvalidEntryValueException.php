@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Easy\Menv\Exceptions;
 
 use Throwable;
@@ -9,14 +7,14 @@ use Throwable;
 /** @package Easy\Menv\Exceptions */
 class InvalidEntryValueException extends Exception
 {
-    /** @var mixed */
+    /** @var mixed $value */
     private $value;
 
     /**
-     * @param mixed $value
-     * @param int $code
-     * @param Throwable|null $previous
-     * @return void
+     * @param mixed $value 
+     * @param int $code 
+     * @param Throwable|null $previous 
+     * @return void 
      */
     public function __construct(
         $value,
@@ -25,10 +23,10 @@ class InvalidEntryValueException extends Exception
     ) {
         $this->value = $value;
 
-        $msg = 'Entry value is not valid.';
-
         if (is_string($value)) {
             $msg = sprintf('<%s> is not a valid entry value.', $value);
+        } else {
+            $msg = 'Entry value is not valid.';
         }
 
         parent::__construct($msg, $code, $previous);

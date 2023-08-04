@@ -1,17 +1,19 @@
 <?php
 
-namespace Uvodo\Menv\Exceptions;
+declare(strict_types=1);
+
+namespace Easy\Menv\Exceptions;
 
 use Throwable;
 
-/** @package Uvodo\Menv\Exceptions */
+/** @package Easy\Menv\Exceptions */
 class EntryNotFoundWithKeyException extends Exception
 {
     /**
-     * @param string $key 
-     * @param int $code 
-     * @param Throwable|null $previous 
-     * @return void 
+     * @param string $key
+     * @param int $code
+     * @param Throwable|null $previous
+     * @return void
      */
     public function __construct(
         string $key,

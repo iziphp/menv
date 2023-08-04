@@ -1,11 +1,11 @@
-# Uvodo Menv
+# IziPHP Menv
 
 A PHP library to modify values and comments in .env files.
 
 ## Installation
 
 ```bash
-$ composer require uvodohq/menv
+$ composer require iziphp/menv
 ```
 
 ## Basic Usage
@@ -13,7 +13,7 @@ $ composer require uvodohq/menv
 ```php
 <?php
 
-use Uvodo\Menv\Env;
+use Easy\Menv\Env;
 
 $path = '/path/to/.env';
 $env = new Env($path);

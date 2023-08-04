@@ -1,17 +1,19 @@
 <?php
 
-namespace Uvodo\Menv\Exceptions;
+declare(strict_types=1);
+
+namespace Easy\Menv\Exceptions;
 
 use Throwable;
 
-/** @package Uvodo\Menv\Exceptions */
+/** @package Easy\Menv\Exceptions */
 class FileNotFoundException extends Exception
 {
     /**
-     * @param string $path 
-     * @param int $code 
-     * @param Throwable|null $previous 
-     * @return void 
+     * @param string $path
+     * @param int $code
+     * @param Throwable|null $previous
+     * @return void
      */
     public function __construct(
         string $path,

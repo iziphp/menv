@@ -1,11 +1,13 @@
 <?php
 
-namespace Uvodo\Menv;
+declare(strict_types=1);
 
-use Uvodo\Menv\Exceptions\InvalidEntryException;
-use Uvodo\Menv\Exceptions\InvalidEntryValueException;
+namespace Easy\Menv;
 
-/** @package Uvodo\Menv */
+use Easy\Menv\Exceptions\InvalidEntryException;
+use Easy\Menv\Exceptions\InvalidEntryValueException;
+
+/** @package Easy\Menv */
 class Entry
 {
     private string $line;
@@ -15,9 +17,9 @@ class Entry
     private bool $isUpdated = false;
 
     /**
-     * @param string $line 
-     * @return void 
-     * @throws InvalidEntryException 
+     * @param string $line
+     * @return void
+     * @throws InvalidEntryException
      */
     public function __construct(string $line)
     {
@@ -28,11 +30,11 @@ class Entry
         }
     }
 
-    /** 
-     * Get entry line. 
+    /**
+     * Get entry line.
      * If not modified, then will return the original, unparsed line.
-     * 
-     * @return string  
+     *
+     * @return string
      */
     public function getLine(): string
     {
@@ -52,9 +54,9 @@ class Entry
         return $out;
     }
 
-    /** 
+    /**
      * Get original unparsed line.
-     * @return string  
+     * @return string
      */
     public function getOriginalLine(): string
     {
@@ -68,9 +70,9 @@ class Entry
     }
 
     /**
-     * @param mixed $value 
-     * @return void 
-     * @throws InvalidEntryValueException 
+     * @param mixed $value
+     * @return void
+     * @throws InvalidEntryValueException
      */
     public function setValue($value)
     {
@@ -107,8 +109,8 @@ class Entry
     }
 
     /**
-     * @param string $comment 
-     * @return void 
+     * @param string $comment
+     * @return void
      */
     public function setComment(string $comment)
     {
@@ -118,7 +120,7 @@ class Entry
 
     /**
      * String representation of the instance
-     * @return string 
+     * @return string
      */
     public function __toString()
     {
@@ -127,9 +129,9 @@ class Entry
 
     /**
      * Parse entry line to the key, value and comments
-     * @param string $line 
-     * @return void 
-     * @throws InvalidEntryException 
+     * @param string $line
+     * @return void
+     * @throws InvalidEntryException
      */
     private function parse(string $line)
     {
@@ -137,7 +139,7 @@ class Entry
 
         if (substr($line, 0, 1) == '#') {
             $this->comment = substr($line, 1);
-        } else if (preg_match($pattern, $line, $matches)) {
+        } elseif (preg_match($pattern, $line, $matches)) {
             $this->key = $matches[1];
             $right = $matches[3];
 
